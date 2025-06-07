@@ -2,7 +2,7 @@
 name = "plot-utils"
 version = "0.0.1"
 authors = ["Tatiana Khabarova"]
-description = "The package contains for preparing data for plotting graphs"
+description = "Data preparation package for plotting"
 
 [tool.poetry.dependencies]
 python = ">=3.10"

@@ -1,1 +1,1 @@
-# The package for preparing data for plotting graphs
+# Data preparation package for plotting
