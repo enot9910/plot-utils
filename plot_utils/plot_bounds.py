@@ -12,19 +12,23 @@ def get_data_percentile(data, percentile=[1, 99.5]):
     p_low, p_high = np.percentile(data, percentile)
     return p_low, p_high
 
-def calc_buffer(xlims, ylims, percent_buffer=0.15):
-    x_buffer = percent_buffer * (xlims[1] - xlims[0])
-    y_buffer = percent_buffer * (ylims[1] - ylims[0])
+def calc_buffer(lims, percent_buffer=0.15):
+    data_range = lims[1] - lims[0]
+    buffer = percent_buffer * data_range
+    new_lims = (lims[0] - buffer, lims[1] + buffer)
+    return new_lims
 
-    x_new = (xlims[0] - x_buffer, xlims[1] + x_buffer)
-    y_new = (ylims[0] - y_buffer, ylims[1] + y_buffer)
+def calc_plot_limit(data, percentile=[1, 99.5], percent_buffer=0.3):
+    lims = get_data_percentile(data, percentile)
+    new_lims = calc_buffer(lims, percent_buffer=percent_buffer)
+    return new_lims
 
-    return x_new, y_new
-
-def calc_plot_limits(df, feature, target, percentile, percent_buffer):
+def calc_plot_limits(df, feature, target, percentile, percent_buffer=[0.15, 0.15]):
     y_lims = get_data_percentile(df[feature], percentile=percentile)
     x_lims = get_data_percentile(df[target], percentile=percentile)
-    return calc_buffer(x_lims, y_lims, percent_buffer)
+    x_lims_new = calc_buffer(x_lims, percent_buffer[0])
+    y_lims_new = calc_buffer(y_lims, percent_buffer[1])
+    return x_lims_new, y_lims_new
 
 def set_plot_limits(xlims, ylims, ax=None):
     if ax is None:
